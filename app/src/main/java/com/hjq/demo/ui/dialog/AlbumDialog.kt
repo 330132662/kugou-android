@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hjq.base.BaseAdapter
 import com.hjq.base.BaseDialog
 import com.hjq.base.BottomSheetDialog
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.app.AppAdapter
 import com.hjq.demo.http.glide.GlideApp
 

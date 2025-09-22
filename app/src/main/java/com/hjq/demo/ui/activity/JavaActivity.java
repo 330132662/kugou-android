@@ -8,7 +8,7 @@ import android.telephony.CellInfoGsm;
 import android.telephony.CellInfoLte;
 import android.util.Log;
 
-import com.hjq.demo.R;
+import com.bb.kg.R;
 
 import java.util.List;
 

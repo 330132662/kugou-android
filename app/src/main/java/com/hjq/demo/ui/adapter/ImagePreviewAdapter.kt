@@ -3,7 +3,7 @@ package com.hjq.demo.ui.adapter
 import android.content.Context
 import android.view.ViewGroup
 import com.github.chrisbanes.photoview.PhotoView
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.app.AppAdapter
 import com.hjq.demo.http.glide.GlideApp
 

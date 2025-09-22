@@ -11,17 +11,17 @@ import com.hjq.demo.ui.activity.CopyActivity
  *    time   : 2018/10/18
  *    desc   : 可进行拷贝的副本
  */
-class CopyFragment : AppFragment<CopyActivity>() {
+class HomeFragment : AppFragment<CopyActivity>() {
 
     companion object {
 
-        fun newInstance(): CopyFragment {
-            return CopyFragment()
+        fun newInstance(): HomeFragment {
+            return HomeFragment()
         }
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.copy_fragment
+        return R.layout.home_fragment
     }
 
     override fun initView() {}

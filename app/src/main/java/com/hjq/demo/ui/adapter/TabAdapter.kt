@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
 import com.hjq.base.BaseAdapter
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.app.AppAdapter
 
 /**

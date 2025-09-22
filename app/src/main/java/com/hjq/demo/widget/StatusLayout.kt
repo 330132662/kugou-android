@@ -14,7 +14,7 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import com.airbnb.lottie.LottieAnimationView
-import com.hjq.demo.R
+import com.bb.kg.R
 
 /**
  *    author : Android 轮子哥

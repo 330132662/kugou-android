@@ -7,7 +7,7 @@ import android.widget.*
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hjq.base.BaseAdapter
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.app.AppAdapter
 import timber.log.Timber
 

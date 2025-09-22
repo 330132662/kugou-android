@@ -20,7 +20,7 @@ import com.google.gson.stream.JsonToken
 import com.hjq.bar.TitleBar
 import com.hjq.bar.style.NightBarStyle
 import com.hjq.base.CommonContext
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.aop.Log
 import com.hjq.demo.http.glide.GlideApp
 import com.hjq.demo.http.glide.ImageUtils

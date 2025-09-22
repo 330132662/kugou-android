@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import com.hjq.base.BaseDialog
 import com.hjq.base.action.AnimAction
-import com.hjq.demo.R
+import com.bb.kg.R
 
 /**
  *    author : Android 轮子哥

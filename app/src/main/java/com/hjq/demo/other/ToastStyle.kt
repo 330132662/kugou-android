@@ -3,7 +3,7 @@ package com.hjq.demo.other
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.toast.style.BlackToastStyle
 
 /**

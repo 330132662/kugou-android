@@ -14,7 +14,7 @@ import com.hjq.bar.TitleBar
 import com.hjq.base.BaseActivity
 import com.hjq.base.BaseAdapter
 import com.hjq.base.BaseDialog
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.action.StatusAction
 import com.hjq.demo.aop.SingleClick
 import com.hjq.demo.app.AppActivity

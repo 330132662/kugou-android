@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import com.hjq.bar.style.LightBarStyle
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.widget.view.PressAlphaTextView
 
 /**

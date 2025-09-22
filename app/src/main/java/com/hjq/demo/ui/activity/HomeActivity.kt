@@ -9,14 +9,18 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.hjq.base.FragmentPagerAdapter
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.app.AppActivity
 import com.hjq.demo.app.AppFragment
 import com.hjq.demo.manager.ActivityManager
 import com.hjq.demo.manager.Router
 import com.hjq.demo.other.DoubleClickHelper
 import com.hjq.demo.ui.adapter.NavigationAdapter
+import com.hjq.demo.ui.fragment.HomeFragment
 import com.hjq.demo.ui.fragment.MessageFragment
+import com.hjq.demo.ui.fragment.MineFragment
+import com.hjq.demo.ui.fragment.SingFragment
+import com.hjq.demo.ui.fragment.VideoFragment
 
 /**
  *    author : Android 轮子哥
@@ -75,12 +79,18 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener {
                     ContextCompat.getDrawable(this@HomeActivity, R.drawable.home_home_selector)
                 )
             )
-            /*addItem(
+            addItem(
+                NavigationAdapter.MenuItem(
+                    getString(R.string.home_nav_money),
+                    ContextCompat.getDrawable(this@HomeActivity, R.drawable.home_home_selector)
+                )
+            )
+            addItem(
                 NavigationAdapter.MenuItem(
                     getString(R.string.home_nav_me),
                     ContextCompat.getDrawable(this@HomeActivity, R.drawable.home_home_selector)
                 )
-            )*/
+            )
             setOnNavigationListener(this@HomeActivity)
             navigationView?.adapter = this
         }
@@ -88,9 +98,11 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener {
 
     override fun initData() {
         pagerAdapter = FragmentPagerAdapter<AppFragment<*>>(this).apply {
+            addFragment(HomeFragment.newInstance())
+            addFragment(VideoFragment.newInstance())
+            addFragment(SingFragment.newInstance())
             addFragment(MessageFragment.newInstance())
-            addFragment(MessageFragment.newInstance())
-            addFragment(MessageFragment.newInstance())
+            addFragment(MineFragment.newInstance())
             viewPager?.adapter = this
         }
         onNewIntent(intent)

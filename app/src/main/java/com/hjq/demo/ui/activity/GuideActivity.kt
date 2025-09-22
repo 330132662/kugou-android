@@ -5,7 +5,7 @@ import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.aop.SingleClick
 import com.hjq.demo.app.AppActivity
 import com.hjq.demo.ui.adapter.GuideAdapter

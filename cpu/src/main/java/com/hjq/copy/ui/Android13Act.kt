@@ -20,10 +20,13 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat.getSystemService
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.color.DynamicColors
 import com.hjq.copy.R
+import com.blankj.utilcode.util.StringUtils.getString
+import com.hjq.base.CommonContext.Companion.getContext
 import com.hjq.demo.app.AppActivity
 import com.hjq.demo.manager.Router
 import com.hjq.demo.ui.activity.ImageSelectActivity
@@ -187,8 +190,8 @@ class Android13Act : AppActivity() {
             // 适配 Android 8.0 通知渠道新特性
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val channel = NotificationChannel(
-                    getString(com.hjq.demo.R.string.update_notification_channel_id),
-                    getString(com.hjq.demo.R.string.update_notification_channel_name),
+                    getString( R.string.update_notification_channel_id),
+                    getString( R.string.update_notification_channel_name),
                     NotificationManager.IMPORTANCE_LOW
                 )
                 channel.enableLights(false)
@@ -203,13 +206,13 @@ class Android13Act : AppActivity() {
                     // 设置通知时间
                     .setWhen(System.currentTimeMillis())
                     // 设置通知标题
-                    .setContentTitle(getString(com.hjq.demo.R.string.app_name))
+                    .setContentTitle(getString(R.string.app_name))
                     // 设置通知小图标
-                    .setSmallIcon(com.hjq.demo.R.mipmap.launcher_ic)
+                    .setSmallIcon(R.mipmap.launcher_ic)
                     // 设置通知大图标
                     .setLargeIcon(
                         BitmapFactory.decodeResource(
-                            getResources(), com.hjq.demo.R.mipmap.launcher_ic
+                            getResources(), R.mipmap.launcher_ic
                         )
                     )
                     // 设置通知静音

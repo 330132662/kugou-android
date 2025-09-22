@@ -11,7 +11,7 @@ import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.hjq.toast.ToastUtils
 import java.util.*
-import com.hjq.demo.R
+import com.bb.kg.R
 
 /**
  *    author : Android 轮子哥

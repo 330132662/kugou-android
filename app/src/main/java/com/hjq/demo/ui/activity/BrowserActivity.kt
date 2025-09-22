@@ -11,7 +11,7 @@ import android.view.View
 import android.webkit.WebView
 import android.widget.ProgressBar
 import com.hjq.bar.TitleBar
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.action.StatusAction
 import com.hjq.demo.aop.CheckNet
 import com.hjq.demo.aop.Log

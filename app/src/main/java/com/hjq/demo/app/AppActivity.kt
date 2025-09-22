@@ -7,7 +7,7 @@ import androidx.annotation.StringRes
 import com.hjq.bar.TitleBar
 import com.hjq.base.BaseActivity
 import com.hjq.base.BaseDialog
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.action.TitleBarAction
 import com.hjq.demo.action.ToastAction
 import com.hjq.demo.http.model.HttpData

@@ -7,7 +7,7 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
-import com.hjq.demo.R
+import com.bb.kg.R
 
 /**
  *    author : Android 轮子哥

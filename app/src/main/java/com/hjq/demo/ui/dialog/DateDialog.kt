@@ -5,7 +5,7 @@ import android.view.*
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.hjq.base.BaseDialog
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.aop.SingleClick
 import com.hjq.demo.app.AppAdapter
 import com.hjq.demo.manager.PickerLayoutManager

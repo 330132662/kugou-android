@@ -3,7 +3,7 @@ package com.hjq.demo.ui.activity
 import android.content.Intent
 import android.view.View
 import com.airbnb.lottie.LottieAnimationView
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.app.AppActivity
 import com.hjq.demo.manager.MmkvUtil
 import com.hjq.demo.manager.ThreadPoolManager

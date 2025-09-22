@@ -7,7 +7,7 @@ import android.view.Gravity
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
-import com.hjq.demo.R
+import com.bb.kg.R
 import kotlin.math.max
 import kotlin.math.min
 

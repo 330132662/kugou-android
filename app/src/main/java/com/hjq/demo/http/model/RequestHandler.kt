@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.http.HttpCacheManager
 import com.hjq.demo.manager.ActivityManager
 import com.hjq.gson.factory.GsonFactory

@@ -7,7 +7,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.RawRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.widget.StatusLayout
 import com.hjq.demo.widget.StatusLayout.OnRetryListener
 

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hjq.base.BaseAdapter
 import com.hjq.base.BasePopupWindow
 import com.hjq.base.action.AnimAction
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.app.AppAdapter
 import com.hjq.demo.other.ArrowDrawable
 import java.util.*

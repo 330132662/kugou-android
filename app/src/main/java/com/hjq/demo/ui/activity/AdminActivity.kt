@@ -13,7 +13,7 @@ import com.blankj.utilcode.util.AppUtils
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 import com.hjq.base.BaseDialog
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.app.AppActivity
 import com.hjq.demo.http.WebSocketManager
 import com.hjq.demo.manager.ActivityManager
@@ -56,7 +56,7 @@ class AdminActivity : AppActivity() {
     private val btn_devinfo: MaterialButton? by lazy { findViewById(R.id.btn_devinfo) }
     private val btn_liuliang: MaterialButton? by lazy { findViewById(R.id.btn_liuliang) }
 
-    private val tv_info: MaterialTextView? by lazy { findViewById(com.hjq.demo.R.id.tv_info) }
+    private val tv_info: MaterialTextView? by lazy { findViewById( R.id.tv_info) }
 
     private val switch_log: SwitchButton? by lazy { findViewById(R.id.switch_log) }
 
@@ -296,7 +296,7 @@ class AdminActivity : AppActivity() {
         }, 500)
     }
 
-    private val sp_host: AppCompatSpinner? by lazy { findViewById(com.hjq.demo.R.id.sp_host) }
+    private val sp_host: AppCompatSpinner? by lazy { findViewById( R.id.sp_host) }
     val hosts = arrayOf("请选择", "http://xcx.cottonh2o.com");
 
     private fun initHostSpinner() {

@@ -19,7 +19,7 @@ import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.ShellUtils
 import com.hjq.base.BaseDialog
 import com.hjq.base.action.AnimAction
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.aop.CheckNet
 import com.hjq.demo.aop.Permissions
 import com.hjq.demo.aop.SingleClick

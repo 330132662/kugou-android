@@ -13,7 +13,7 @@ import com.bumptech.glide.load.engine.cache.MemorySizeCalculator
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.http.EasyConfig
 import java.io.File
 import java.io.InputStream

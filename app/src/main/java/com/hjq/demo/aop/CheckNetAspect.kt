@@ -4,7 +4,7 @@ import android.app.*
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import androidx.core.content.ContextCompat
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.manager.ActivityManager
 import com.hjq.toast.ToastUtils
 import org.aspectj.lang.ProceedingJoinPoint

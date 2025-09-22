@@ -1,7 +1,7 @@
 package com.hjq.demo.ui.activity
 
 import android.widget.TextView
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.app.AppActivity
 import com.hjq.demo.widget.FreePositionJoystickView
 

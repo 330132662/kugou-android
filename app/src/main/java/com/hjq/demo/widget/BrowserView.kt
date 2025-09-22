@@ -17,7 +17,7 @@ import com.hjq.base.BaseActivity
 import com.hjq.base.BaseActivity.OnActivityCallback
 import com.hjq.base.BaseDialog
 import com.hjq.base.action.ActivityAction
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.other.AppConfig
 import com.hjq.demo.other.PermissionCallback
 import com.hjq.demo.ui.activity.ImageSelectActivity

@@ -8,7 +8,7 @@ import android.widget.TextView
 import android.widget.TextView.OnEditorActionListener
 import androidx.annotation.StringRes
 import com.hjq.base.BaseDialog
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.aop.SingleClick
 import com.hjq.widget.view.RegexEditText
 

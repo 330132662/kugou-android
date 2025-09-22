@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.hjq.base.BaseAdapter
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.aop.Log
 import com.hjq.demo.app.AppActivity
 import com.hjq.demo.ui.adapter.ImagePreviewAdapter

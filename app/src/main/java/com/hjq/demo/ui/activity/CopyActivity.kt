@@ -1,6 +1,6 @@
 package com.hjq.demo.ui.activity
 
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.app.AppActivity
 
 /**

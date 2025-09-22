@@ -2,7 +2,7 @@ package com.hjq.demo.ui.adapter
 
 import android.content.Context
 import android.view.ViewGroup
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.app.AppAdapter
 
 /**

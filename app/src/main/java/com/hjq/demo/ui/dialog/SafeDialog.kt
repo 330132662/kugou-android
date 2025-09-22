@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import com.hjq.base.BaseDialog
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.aop.SingleClick
 import com.hjq.demo.http.api.demo.GetCodeApi
 import com.hjq.demo.http.api.demo.VerifyCodeApi

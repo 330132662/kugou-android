@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.annotation.StringRes
 import com.hjq.base.BaseDialog
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.aop.SingleClick
 
 /**

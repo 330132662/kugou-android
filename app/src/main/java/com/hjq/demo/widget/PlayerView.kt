@@ -24,7 +24,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.airbnb.lottie.LottieAnimationView
 import com.hjq.base.action.ActivityAction
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.widget.layout.SimpleLayout
 import com.hjq.widget.view.PlayButton
 import timber.log.Timber

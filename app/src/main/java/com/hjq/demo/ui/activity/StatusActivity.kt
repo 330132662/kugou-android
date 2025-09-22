@@ -2,7 +2,7 @@ package com.hjq.demo.ui.activity
 
 import androidx.core.content.ContextCompat
 import com.hjq.base.BaseDialog
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.action.StatusAction
 import com.hjq.demo.app.AppActivity
 import com.hjq.demo.ui.dialog.MenuDialog

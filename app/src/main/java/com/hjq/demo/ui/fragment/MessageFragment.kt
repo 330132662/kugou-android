@@ -11,7 +11,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import com.alibaba.android.arouter.launcher.ARouter
 import com.google.android.material.button.MaterialButton
 import com.hjq.base.CommonContext
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.aop.Permissions
 import com.hjq.demo.app.TitleBarFragment
 import com.hjq.demo.manager.Router

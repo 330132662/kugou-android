@@ -6,7 +6,7 @@ import android.widget.CheckBox
 import android.widget.ImageView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.app.AppAdapter
 import com.hjq.demo.http.glide.GlideApp
 

@@ -8,7 +8,7 @@ import android.provider.MediaStore
 import androidx.core.content.FileProvider
 import com.blankj.utilcode.util.AppUtils
 import com.hjq.base.BaseActivity
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.aop.Log
 import com.hjq.demo.aop.Permissions
 import com.hjq.demo.app.AppActivity

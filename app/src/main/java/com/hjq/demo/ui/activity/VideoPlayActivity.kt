@@ -7,7 +7,7 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
-import com.hjq.demo.R
+import com.bb.kg.R
 import com.hjq.demo.app.AppActivity
 import com.hjq.demo.widget.PlayerView
 import com.hjq.demo.widget.PlayerView.OnPlayListener
