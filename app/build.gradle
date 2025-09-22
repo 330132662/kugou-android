@@ -1,0 +1,54 @@
+//apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
+apply from: '../common.gradle'
+
+
+// Android 代码规范文档：https://github.com/getActivity/AndroidCodeStandard
+android {
+    namespace 'com.bb.kg'
+
+    // 资源目录存放指引：https://developer.android.google.cn/guide/topics/resources/providing-resources
+    defaultConfig {
+
+        // 无痛修改包名：https://www.jianshu.com/p/17327e191d2e
+//        applicationId 'com.juhui2024.demo'
+        multiDexEnabled true
+        // 仅保留中文语种的资源
+//        resConfigs 'zh'
+
+        // 仅保留 xxhdpi 图片资源（目前主流分辨率 1920 * 1080）
+        resConfigs 'xxhdpi'
+
+        // 混淆配置
+        proguardFiles 'proguard-sdk.pro', 'proguard-app.pro'
+
+        // 日志打印开关
+        buildConfigField('boolean', 'LOG_ENABLE', '' + LOG_ENABLE + '')
+        // 测试包下的 BuglyId
+        buildConfigField('String', 'BUGLY_ID', '"' + BUGLY_ID + '"')
+        // 测试服务器的主机地址
+        buildConfigField('String', 'HOST_URL', '"' + HOST_URL + '"')
+        vectorDrawables {
+            useSupportLibrary true
+        }
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+    }
+
+
+}
+
+// 添加构建依赖项：https://developer.android.google.cn/studio/build/dependencies
+// api 与 implementation 的区别：https://www.jianshu.com/p/8962d6ba936e
+dependencies {
+    // 基类封装       无特殊情况  请勿在模块级配置文件增加依赖！！！！！！！！！！！！！！！！
+    api project(':library:base')
+    // 控件封装
+    api project(':library:widget')
+
+    kapt 'com.alibaba:arouter-compiler:1.5.2'
+    implementation 'com.alibaba:arouter-api:1.5.2'
+}

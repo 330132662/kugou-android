@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.hjq.bar.TitleBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="管理员" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="国际化调试"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/app_name" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bt_def"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="默认" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bt_simple"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="简体中文" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bt_zh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="繁體" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bt_laji"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="厕所語" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bt_en"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="英文" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bt_ko"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="棒子语" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="返回主界面" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_sn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="设置设备编号" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_launcher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="固件桌面"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_sys_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="系统设置" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/t_host"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="主机切换"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/sp_host"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@+id/t_host"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="机器信息"
+                app:layout_constraintStart_toStartOf="@+id/t_host"
+                app:layout_constraintTop_toBottomOf="@+id/t_host" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_reboot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="重启Android"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_info"
+                app:layout_constraintStart_toEndOf="@+id/sp_host" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tt_debug"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="调试开关"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_reboot"
+                app:layout_constraintStart_toEndOf="@+id/btn_reboot" />
+
+            <com.hjq.widget.view.SwitchButton
+                android:id="@+id/switch_log"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/tt_debug"
+                app:layout_constraintStart_toEndOf="@+id/tt_debug" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_watchdog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="看门狗"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_reboot" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_devinfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看设备参数"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_reboot" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_liuliang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看流量消耗"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_devinfo"
+                app:layout_constraintStart_toEndOf="@+id/btn_devinfo" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</ScrollView>
