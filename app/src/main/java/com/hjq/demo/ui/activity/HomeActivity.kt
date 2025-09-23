@@ -4,12 +4,18 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.VelocityTracker
+import android.view.ViewConfiguration
 import androidx.core.content.ContextCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.hjq.base.FragmentPagerAdapter
 import com.bb.kg.R
+import com.google.android.material.navigation.NavigationView
+import com.hjq.base.FragmentPagerAdapter
 import com.hjq.demo.app.AppActivity
 import com.hjq.demo.app.AppFragment
 import com.hjq.demo.manager.ActivityManager
@@ -21,6 +27,7 @@ import com.hjq.demo.ui.fragment.MessageFragment
 import com.hjq.demo.ui.fragment.MineFragment
 import com.hjq.demo.ui.fragment.SingFragment
 import com.hjq.demo.ui.fragment.VideoFragment
+import timber.log.Timber
 
 /**
  *    author : Android 轮子哥
@@ -30,6 +37,10 @@ import com.hjq.demo.ui.fragment.VideoFragment
  */
 @Route(path = Router.Core)
 class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener {
+
+    private val drawerLayout: DrawerLayout? by lazy { findViewById(R.id.drawer_layout) }
+    private val nav_view: NavigationView? by lazy { findViewById(R.id.nav_view) }
+    private val nav_view_1: NavigationView? by lazy { findViewById(R.id.nav_view_1) }
 
     companion object {
 
@@ -97,6 +108,30 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener {
     }
 
     override fun initData() {
+        viewPager.let {
+            // 监听ViewPager触摸事件
+            it?.setOnTouchListener { _, event ->
+                handleTouchEvent(event)
+                false // 返回false，不拦截事件，保证ViewPager正常滑动
+            }
+            it?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+                ) {
+
+                }
+
+                override fun onPageSelected(position: Int) {
+                    switchFragment(position)
+                }
+
+                override fun onPageScrollStateChanged(state: Int) {
+
+                }
+            })
+        }
         pagerAdapter = FragmentPagerAdapter<AppFragment<*>>(this).apply {
             addFragment(HomeFragment.newInstance())
             addFragment(VideoFragment.newInstance())
@@ -104,6 +139,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener {
             addFragment(MessageFragment.newInstance())
             addFragment(MineFragment.newInstance())
             viewPager?.adapter = this
+
         }
         onNewIntent(intent)
     }
@@ -120,6 +156,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener {
         viewPager?.let {
             // 保存当前 Fragment 索引位置
             outState.putInt(INTENT_KEY_IN_FRAGMENT_INDEX, it.currentItem)
+
         }
     }
 
@@ -130,29 +167,34 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener {
     }
 
     private fun switchFragment(fragmentIndex: Int) {
+        Timber.d("switchFragment: $fragmentIndex")
         if (fragmentIndex == -1) {
             return
         }
-        when (fragmentIndex) {
+        viewPager?.currentItem = fragmentIndex
+        navigationAdapter?.setSelectedPosition(fragmentIndex)/*when (fragmentIndex) {
             0, 1, 2, 3 -> {
-                viewPager?.currentItem = fragmentIndex
-                navigationAdapter?.setSelectedPosition(fragmentIndex)
+
             }
-        }
+        }*/
     }
 
     /**
      * [NavigationAdapter.OnNavigationListener]
      */
     override fun onNavigationItemSelected(position: Int): Boolean {
-        return when (position) {
-            0, 1, 2, 3 -> {
+        viewPager?.currentItem = position
+
+        return true;
+
+        /*return when (position) {
+            0, 1, 2, 3, 4 -> {
                 viewPager?.currentItem = position
                 true
             }
 
             else -> false
-        }
+        }*/
     }
 
 
@@ -175,5 +217,65 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener {
         viewPager?.adapter = null
         navigationView?.adapter = null
         navigationAdapter?.setOnNavigationListener(null)
+    }
+
+    // 滑动相关变量
+    private var startX = 0f // 触摸起始X坐标
+    private var isDragging = false // 是否正在拖动
+    private var velocityTracker: VelocityTracker? = null // 速度追踪器
+    private val minVelocity by lazy {
+        ViewConfiguration.get(this).scaledMinimumFlingVelocity // 最小滑动速度阈值
+    }
+
+    /**
+     * 处理触摸事件，判断是否需要打开抽屉
+     */
+    private fun handleTouchEvent(event: MotionEvent): Boolean {
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                // 记录起始位置
+                startX = event.x
+                isDragging = true
+                // 初始化速度追踪器
+                velocityTracker = VelocityTracker.obtain()
+                velocityTracker?.addMovement(event)
+            }
+
+            MotionEvent.ACTION_MOVE -> {
+                velocityTracker = VelocityTracker.obtain()
+                velocityTracker?.addMovement(event)
+                // 计算当前滑动距离
+                val currentX = event.x
+                val dx = currentX - startX // 正值表示向右滑，负值向左滑
+                isDragging = true
+            }
+
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                val current = viewPager?.currentItem;
+                if (current != null && velocityTracker != null) {
+                    if (isDragging && (current == 0 || current == 4)) { // 仅在第一个页面处理
+                        velocityTracker?.apply {
+                            computeCurrentVelocity(1000) // 计算速度（像素/秒）
+                            val xVelocity = xVelocity // X方向速度（正值向右）
+                            Timber.d("xVelocity: $xVelocity")
+                            // 判断条件：向右滑动且速度达标
+                            if (xVelocity > minVelocity && current == 0) {
+                                // 打开抽屉
+                                drawerLayout?.openDrawer(nav_view!!)
+                            } else if (xVelocity <= 0 && current == 4) {
+                                drawerLayout?.openDrawer(nav_view_1!!)
+                            }
+                            recycle() // 回收速度追踪器
+                        }
+                    } else {
+                        Timber.w("?????????? velocityTracker 是null ")
+                    }
+                }
+                // 重置状态
+                isDragging = false
+                velocityTracker = null
+            }
+        }
+        return false
     }
 }
