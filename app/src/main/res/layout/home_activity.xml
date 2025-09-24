@@ -9,6 +9,7 @@
     tools:context="com.hjq.demo.ui.activity.HomeActivity">
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/main_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -35,6 +36,7 @@
     <!-- 抽屉菜单布局 -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
+        android:elevation="10dp"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"

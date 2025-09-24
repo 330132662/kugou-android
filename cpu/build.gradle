@@ -75,7 +75,7 @@ android {
             // 签名信息配置
             signingConfig signingConfigs.config
             // 添加清单占位符
-            addManifestPlaceholders(['app_name': '范例工程-dev'])
+//            addManifestPlaceholders(['app_name': '范例工程-dev'])
 
         }
 
@@ -91,7 +91,7 @@ android {
             applicationIdSuffix ''
             minifyEnabled false
             // 添加清单占位符
-            addManifestPlaceholders(['app_name': '范例工程pre'])
+//            addManifestPlaceholders(['app_name': '范例工程pre'])
         }
 
         release {
