@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-<!--        <com.hjq.widget.layout.NoScrollViewPager-->
+        <!--        <com.hjq.widget.layout.NoScrollViewPager-->
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/vp_home_pager"
             android:layout_width="match_parent"
@@ -34,25 +34,41 @@
             tools:listitem="@layout/home_navigation_item" />
     </androidx.appcompat.widget.LinearLayoutCompat>
     <!-- 抽屉菜单布局 -->
-    <com.google.android.material.navigation.NavigationView
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/nav_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/red">
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/launcher_ic" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <!--<com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:elevation="10dp"
+        android:background="@color/red"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        android:focusable="true"
         android:gravity="start"
+        android:clickable="true"
         app:headerLayout="@layout/nav_header_main"
         app:itemBackground="@drawable/bg_tab"
         app:itemIconTint="@color/pink"
         app:itemTextColor="@color/black"
-        app:menu="@menu/activity_main_drawer" />
+        app:menu="@menu/activity_main_drawer" />-->
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view_1"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end"
+        android:background="@color/green"
         android:fitsSystemWindows="true"
         android:gravity="end"
         app:headerLayout="@layout/nav_header_main"

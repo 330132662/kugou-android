@@ -8,13 +8,13 @@ import android.view.MotionEvent
 import android.view.VelocityTracker
 import android.view.View
 import android.view.ViewConfiguration
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.Interpolator
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
-import androidx.viewpager2.widget.ViewPager2
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bb.kg.R
 import com.google.android.material.navigation.NavigationView
@@ -30,8 +30,15 @@ import com.hjq.demo.ui.fragment.MessageFragment
 import com.hjq.demo.ui.fragment.MineFragment
 import com.hjq.demo.ui.fragment.SingFragment
 import com.hjq.demo.ui.fragment.VideoFragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  *    author : Android 轮子哥
@@ -43,7 +50,9 @@ import kotlin.math.abs
 class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener {
 
     private val drawerLayout: DrawerLayout? by lazy { findViewById(R.id.drawer_layout) }
-    private val nav_view: NavigationView? by lazy { findViewById(R.id.nav_view) }
+
+    //    private val nav_view: NavigationView? by lazy { findViewById(R.id.nav_view) }
+    private val nav_view: LinearLayoutCompat? by lazy { findViewById(R.id.nav_view) }
     private val nav_view_1: NavigationView? by lazy { findViewById(R.id.nav_view_1) }
     private val main_view: LinearLayoutCompat? by lazy { findViewById(R.id.main_view) }
 
@@ -110,13 +119,44 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener {
             setOnNavigationListener(this@HomeActivity)
             navigationView?.adapter = this
         }
-        main_view?.let {
-            it?.setOnTouchListener { v, event ->
-                handleTouchEvent(event);
-                true;
+        nav_view?.let {
+            it.setOnTouchListener { v, event ->
+                Timber.d("HomeActivity touch event: ${event.action}")
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                    }
+
+                    MotionEvent.ACTION_MOVE -> {
+                        if (event.x > nav_view?.width!!) {
+                            operateDrawer(false);
+                        }
+                    }
+
+                    else -> {
+
+                    }
+                }
+                false
             }
         }
+        main_view?.let {
+
+        }
+        var lastX: Float = 0f
         drawerLayout.let {
+            it?.setOnTouchListener { v, event ->
+                val currentX = event.x;
+                if (currentX < lastX) {
+//                    关闭抽屉
+                    main_view?.translationX = currentX;
+//                    operateDrawer(false);
+                }
+                nav_view?.translationX = -currentX;
+                Timber.d("drawerLayout touch event: ${event.action} x=${event.x} y=${event.y}");
+                lastX = currentX
+
+                false
+            }
             it?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
             it?.addDrawerListener(object : DrawerLayout.DrawerListener {
                 override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
@@ -157,7 +197,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener {
         viewPager.let {
             // 监听ViewPager触摸事件
             it?.setOnTouchListener { _, event ->
-                handleTouchEvent(event)
+                handleViewpagerTouchEvent(event)
                 false // 返回false，不拦截事件，保证ViewPager正常滑动
             }
             it?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -168,7 +208,10 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener {
                 }
 
                 override fun onPageSelected(position: Int) {
-                    switchFragment(position)
+                    navigationAdapter?.setSelectedPosition(position)
+                    /*if (drawerOpening) {
+                        switchFragment(0)
+                    }*/
                 }
 
                 override fun onPageScrollStateChanged(state: Int) {
@@ -216,7 +259,9 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener {
             return
         }
         viewPager?.currentItem = fragmentIndex
-        navigationAdapter?.setSelectedPosition(fragmentIndex)/*when (fragmentIndex) {
+        navigationAdapter?.setSelectedPosition(fragmentIndex)
+
+        /*when (fragmentIndex) {
             0, 1, 2, 3 -> {
 
             }
@@ -258,9 +303,18 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener {
 
     override fun onDestroy() {
         super.onDestroy()
+        animationJob?.cancel() // 销毁时
         viewPager?.adapter = null
         navigationView?.adapter = null
         navigationAdapter?.setOnNavigationListener(null)
+    }
+
+    // 确保视图测量完成后获取抽屉宽度
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            drawerMaxTranslationX = -drawerWidth // 抽屉初始位置：-width（完全隐藏）
+        }
     }
 
     // 滑动相关变量
@@ -271,7 +325,16 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener {
     private var isDrawerMoving = false;
     private val touchSlop by lazy { ViewConfiguration.get(this).scaledTouchSlop }
     private val minFlingVelocity by lazy { ViewConfiguration.get(this).scaledMinimumFlingVelocity }
-    private val drawerWidth by lazy { 280 } // 抽屉宽度（dp转px）
+    private val drawerWidth by lazy { nav_view?.width ?: 0 } // 抽屉宽度（dp转px）
+
+    // 动画相关
+    private val interpolator: Interpolator = DecelerateInterpolator(1.5f)
+    private var animationJob: Job? = null
+
+    /**
+     *  抽屉最大可移动距离（负数，抽屉宽度的相反数）
+     */
+    private var drawerMaxTranslationX = 0
 
     /**
      * 记录上一个页面的位置  用于防止在最后一个fragment左滑时  显示了右侧抽屉
@@ -285,95 +348,140 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener {
     /**
      * 处理触摸事件，判断是否需要打开抽屉
      */
-    private fun handleTouchEvent(event: MotionEvent): Boolean {
+    private fun handleViewpagerTouchEvent(event: MotionEvent): Boolean {
+        // 确保抽屉宽度已获取
+        if ((viewPager?.currentItem ?: -1) > 0 || drawerWidth == 0) return false
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                // 记录起始位置
+                // 取消可能正在进行的动画
+                animationJob?.cancel()
+
+                // 记录初始位置
                 startX = event.x
-                isDragging = true
-                // 初始化速度追踪器
+                currentX = startX
+                isDragging = false
                 velocityTracker = VelocityTracker.obtain()
                 velocityTracker?.addMovement(event)
             }
 
             MotionEvent.ACTION_MOVE -> {
-                velocityTracker = VelocityTracker.obtain()
                 velocityTracker?.addMovement(event)
-
-                // 计算当前滑动距离
-                /*val currentX = event.x
-                val dx = currentX - startX*/ // 正值表示向右滑，负值向左滑
-                isDragging = true
-
                 val x = event.x
                 val dx = x - startX // 滑动距离（正值向右）
 
                 // 判断是否开始拖动（超过系统最小滑动距离）
                 if (!isDragging && abs(dx) > touchSlop) {
                     isDragging = true
-                    // 仅在第一个页面且向右滑时才处理
-                    if (dx > 0 && viewPager?.currentItem == 0) {
+                    // 仅在向右滑时处理（假设第一个页面）
+                    val vpCurrent = viewPager?.currentItem ?: -1;
+                    if (vpCurrent == 0 || vpCurrent == 4) {//|| dx > 0
                         isDrawerMoving = true
                     }
                 }
+                /**
+                 *  slideOffset 抽屉滑动比例  0-1 0是复位
+                 */
+                val slideOffset = min(1f, max(0f, dx / drawerWidth))
+                /**
+                 *  随着手指滑动宽度 w1  抽屉滑动距离 d1 = w1 * drawerWidth
+                 */
 
+                Timber.d("drawerWidth=$drawerWidth dx=$dx slideOffset=$slideOffset ")
+                nav_view?.translationX = drawerMaxTranslationX + (drawerWidth * slideOffset)
                 // 处理抽屉滑动
                 if (isDrawerMoving) {
                     currentX = x
-                    // 计算滑动比例（0-1）
-                    val slideOffset = (x - startX) / drawerWidth.coerceAtLeast(1)
-                    val clampedOffset = slideOffset.coerceIn(0f, 1f)
+                    // 计算滑动比例（0-1）：0=完全关闭，1=完全打开
+//                    val slideOffset = min(1f, max(0f, dx / drawerWidth))
 
-                    // 手动更新抽屉位置
-//                    drawerLayout.se(clampedOffset)
-//                    drawerLayout?.translationX = clampedOffset * drawerWidth
-//                    applyStereoEffect(clampedOffset)
-                    updateDrawerPosition(clampedOffset);
+                    // 手动更新抽屉位置：从 -width（隐藏）到 0（完全显示）
+//                    nav_view?.translationX = drawerMaxTranslationX + (drawerWidth * slideOffset)
+
+                    // 应用立体感效果
+                    applyStereoEffect(slideOffset)
                 }
             }
 
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                val current = viewPager?.currentItem;
-                if (current != null && velocityTracker != null) {
-                    if (isDragging && (current == 0 || current == 4)) { // 仅在第一个页面处理
-                        lastCurrentPostion = current;
-                        velocityTracker?.apply {
-                            computeCurrentVelocity(1000) // 计算速度（像素/秒）
-                            val xVelocity = xVelocity // X方向速度（正值向右）
-                            Timber.d("$current 上次 $lastCurrentPostion xVelocity: $xVelocity 速度 $minVelocity")
-                            // 判断条件：向右滑动且速度达标
-                            if (xVelocity > minVelocity && current == 0) {
-                                // 打开抽屉
-                                drawerLayout?.openDrawer(nav_view!!)
-                            } else if (xVelocity < 0 && current == 4) {//&& lastCurrentPostion != current
-                                drawerLayout?.openDrawer(nav_view_1!!)
-                            }
-                            recycle() // 回收速度追踪器
+                if (isDrawerMoving) {
+                    velocityTracker?.apply {
+                        computeCurrentVelocity(1000)
+                        val xVelocity = xVelocity // 滑动速度（正值向右）
+
+                        // 计算当前滑动比例
+                        val dx = currentX - startX
+                        val slideOffset = min(1f, max(0f, dx / drawerWidth))
+
+                        // 判断最终状态：速度达标或滑动超过一半则打开，否则关闭
+                        val shouldOpen = xVelocity > minFlingVelocity || slideOffset > 0.5f
+                        // 执行打开/关闭动画
+//               暂时不用动画         animateDrawer(shouldOpen, slideOffset)
+                        if (shouldOpen) {
+                            operateDrawer(true)
+                        } else {
+                            operateDrawer(false)
                         }
-                    } else {
-                        Timber.w("?????????? velocityTracker 是null ")
+                        recycle()
                     }
                 }
+
                 // 重置状态
                 isDragging = false
+                isDrawerMoving = false
                 velocityTracker = null
             }
         }
-        return false
+        return true
     }
 
-    // 触摸滑动时更新抽屉位置（完全基于官方 translationX API）
-    private fun updateDrawerPosition(slideOffset: Float) {
-        // 抽屉宽度：通过视图测量后获取（避免硬编码，适配不同屏幕）
-        val drawerWidth = drawerLayout?.measuredWidth
-        // 计算当前 translationX：-width（隐藏）→ 0（显示）
-        val targetTranslationX = -drawerWidth!! + (drawerWidth * slideOffset)
-        // 官方 API：设置抽屉的水平位移
-        nav_view?.translationX = targetTranslationX
-        // 同步更新立体感效果
-        applyStereoEffect(slideOffset)
+
+    /**
+     * 抽屉打开/关闭动画
+     * @param open 是否打开
+     * @param startOffset 动画起始比例
+     */
+    private fun animateDrawer(open: Boolean, startOffset: Float) {
+        val duration = 300L // 动画时长
+        val startTime = System.currentTimeMillis()
+        val endOffset = if (open) 1f else 0f
+
+        // 使用协程实现动画
+        animationJob = CoroutineScope(Dispatchers.Main).launch {
+            while (System.currentTimeMillis() - startTime < duration) {
+                val elapsed = System.currentTimeMillis() - startTime
+                val fraction = interpolator.getInterpolation(elapsed.toFloat() / duration)
+                val currentOffset = startOffset + (endOffset - startOffset) * fraction
+
+                // 更新抽屉位置
+                nav_view?.translationX = drawerMaxTranslationX + (drawerWidth * currentOffset)
+                // 更新立体效果
+                applyStereoEffect(currentOffset)
+
+                delay(16) // 约60fps
+            }
+
+            // 动画结束后确保最终状态正确
+            nav_view?.translationX = if (open) 0f else drawerMaxTranslationX.toFloat()
+            applyStereoEffect(endOffset)
+            if (open) {
+                operateDrawer(true)
+            } else {
+                operateDrawer(false)
+            }
+        }
     }
 
+    private var drawerOpening = false;
+    private fun operateDrawer(open: Boolean) {
+        if (drawerLayout?.isDrawerOpen(nav_view!!) == open) return
+        if (open) {
+            drawerOpening = true;
+            drawerLayout?.openDrawer(nav_view!!)
+        } else {
+            drawerLayout?.closeDrawer(nav_view!!)
+            drawerOpening = false;
+        }
+    }
 
     /**
      * 应用立体感效果（缩放、透明度、位移）
@@ -387,10 +495,12 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener {
         // 2. 主界面透明度（1.0 → 0.5）
         main_view?.alpha = 1 - slideOffset * 0.5f
 
-        // 3. 主界面位移（向右移动）
+        // 3. 主界面向右位移（增强被推开的感觉）
         main_view?.translationX = drawerLayout?.width!! * slideOffset * 0.3f
 
-        // 4. 抽屉阴影增强（随打开比例增加阴影）
-        nav_view?.elevation = 5f + slideOffset * 15f // 5dp → 20dp
+        // 4. 抽屉阴影增强（随打开比例增加阴影深度）
+        drawerLayout?.elevation = 5f + slideOffset * 15f
     }
+
+
 }
