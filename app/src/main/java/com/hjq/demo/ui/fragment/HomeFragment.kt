@@ -1,12 +1,12 @@
 package com.hjq.demo.ui.fragment
 
-import androidx.viewpager.widget.ViewPager
 import com.bb.kg.R
 import com.google.android.material.tabs.TabLayout
 import com.hjq.demo.app.AppFragment
 import com.hjq.demo.ui.activity.HomeActivity
 import com.hjq.demo.ui.adapter.ViewPagerAdapter
-import com.hjq.widget.layout.NestedViewPager
+import com.hjq.demo.widget.InnerViewPager
+import com.kongzue.dialogx.dialogs.PopTip
 
 /**
  *    author : Android 轮子哥
@@ -16,7 +16,9 @@ import com.hjq.widget.layout.NestedViewPager
  */
 class HomeFragment : AppFragment<HomeActivity>() {
     private val tabLayout: TabLayout by lazy { requireView().findViewById(R.id.tab_layout) }
-    private val vp_home_pager: NestedViewPager by lazy { requireView().findViewById(R.id.vp_home_pager) }
+
+    //    private val vp_home_pager: NestedViewPager by lazy { requireView().findViewById(R.id.vp_home_pager) }
+    private val vp_home_pager: InnerViewPager by lazy { requireView().findViewById(R.id.vp_home_pager) }
 
     companion object {
 
@@ -36,24 +38,23 @@ class HomeFragment : AppFragment<HomeActivity>() {
 
     override fun initData() {}
     private lateinit var adapter: ViewPagerAdapter
-
     private fun setupViewPager() {
-        adapter = ViewPagerAdapter(requireFragmentManager(), lifecycle)
+        adapter = ViewPagerAdapter(childFragmentManager, lifecycle)
+//        adapter = ViewPagerAdapter(requireFragmentManager(), lifecycle);
         vp_home_pager.adapter = adapter
-        // 设置预加载页面数（可选）
-        vp_home_pager.offscreenPageLimit = 2
+        tabLayout.setupWithViewPager(vp_home_pager)
+        vp_home_pager.offscreenPageLimit = 4
     }
 
+
     private fun setupTabLayout() {
-        adapter = ViewPagerAdapter(requireFragmentManager(), lifecycle);
-        vp_home_pager.adapter = adapter;
         tabLayout.setupWithViewPager(vp_home_pager)
         // 添加标签选择监听器
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 // 标签被选中时的操作
                 tab?.let {
-                    vp_home_pager.currentItem = it.position
+                    vp_home_pager.currentItem = it.position;PopTip.show("${tab.text}");
                 }
             }
 

@@ -13,9 +13,6 @@ import com.hjq.demo.app.AppFragment
 import com.hjq.demo.ui.activity.HomeActivity
 import com.hjq.demo.ui.adapter.KugouAdapter
 import com.hjq.demo.widget.ClickAwareRecyclerView
-import com.hjq.demo.widget.CustomSpanSizeLookup
-import com.hjq.demo.widget.MixedLayoutItemDecoration
-import timber.log.Timber
 
 /**
  *    author : Android 轮子哥
@@ -23,7 +20,7 @@ import timber.log.Timber
  *    time   : 2018/10/18
  *    desc   :  推荐Fragment
  */
-class RecommendFragment : AppFragment<HomeActivity>() {
+class TingshuFragment : AppFragment<HomeActivity>() {
     private val recyclerView: ClickAwareRecyclerView by lazy { requireView().findViewById(R.id.recyclerView) }
 
     //    private lateinit var adapter: HorizontalAdapter
@@ -31,8 +28,8 @@ class RecommendFragment : AppFragment<HomeActivity>() {
 
     companion object {
 
-        fun newInstance(): RecommendFragment {
-            return RecommendFragment()
+        fun newInstance(): TingshuFragment {
+            return TingshuFragment()
         }
     }
 
@@ -42,10 +39,6 @@ class RecommendFragment : AppFragment<HomeActivity>() {
 
     override fun initView() {
 //        setupRecyclerView();
-    }
-
-    override fun onResume() {
-        super.onResume()
         initRecyclerView();
     }
 
@@ -53,30 +46,22 @@ class RecommendFragment : AppFragment<HomeActivity>() {
 
     // 配置参数
     private val baseWidthDp = 120  // 基础宽度（离中心最远时的宽度）
-    private val maxWidthDp = 600   // 最大宽度（中心位置的宽度）
-    private val scrollRangeDp = 30 // 影响宽度变化的滑动范围（px）
+    private val maxWidthDp = 180   // 最大宽度（中心位置的宽度）
+    private val scrollRangeDp = 200 // 影响宽度变化的滑动范围（px）
     var scrollRangePx = 0;
     private fun initRecyclerView() {
         // 模拟数据
         val dataList = mutableListOf<String>()
-        repeat(15) { dataList.add("推荐歌单 $it") }
+        repeat(20) { dataList.add("推荐歌单 $it") }
 
         // 初始化适配器
-        if (!::adapter.isInitialized || adapter == null) {
-            adapter = KugouAdapter(dataList, baseWidthDp, maxWidthDp)
-        }
+        adapter = KugouAdapter(dataList, baseWidthDp, maxWidthDp)
 
-        recyclerView.let {
-            val spanCount = 2
-            val layoutManager = GridLayoutManager(
-                getAttachActivity(), spanCount, GridLayoutManager.HORIZONTAL, false
-            );
-            it.addItemDecoration(MixedLayoutItemDecoration(spanCount));
-            layoutManager.spanSizeLookup = CustomSpanSizeLookup(spanCount);
-            it.layoutManager = layoutManager;
+        recyclerView.adapter = adapter
 
-            it.adapter = adapter;
-        }
+//        recyclerView.layoutManager =     LinearLayoutManager(getAttachActivity(), LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager =
+            GridLayoutManager(getAttachActivity(), 2, GridLayoutManager.HORIZONTAL, true)
 
         // 计算滑动影响范围（dp转px）
         val density = resources.displayMetrics.density
@@ -86,7 +71,6 @@ class RecommendFragment : AppFragment<HomeActivity>() {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                Timber.i("recyclerView onScrolled: dx = $dx, dy = $dy")
 //                updateItemWidths()
             }
         })
@@ -96,14 +80,14 @@ class RecommendFragment : AppFragment<HomeActivity>() {
             ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 recyclerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                updateItemWidths()
+//                updateItemWidths()
             }
         })
     }
 
     // 更新所有可见Item的宽度
     private fun updateItemWidths() {
-        val layoutManager = recyclerView.layoutManager as GridLayoutManager
+        val layoutManager = recyclerView.layoutManager as LinearLayoutManager
         val firstVisiblePos = layoutManager.findFirstVisibleItemPosition()
         val lastVisiblePos = layoutManager.findLastVisibleItemPosition()
 
@@ -120,24 +104,17 @@ class RecommendFragment : AppFragment<HomeActivity>() {
             val distance = Math.abs(itemCenterX - centerX)  // 与屏幕中心的距离
 
             // 计算宽度比例（距离越近，比例越大）
-            val ratio =
-                1 - (distance.toFloat() / scrollRangePx).coerceAtMost(1f);//.coerceAtMost(2f)
+            val ratio = 1 - (distance.toFloat() / scrollRangePx).coerceAtMost(1f)
             // 根据比例计算宽度（基础宽度 + 比例*(最大-基础)）
             val widthPx =
                 (baseWidthDp * resources.displayMetrics.density + ratio * (maxWidthDp - baseWidthDp) * resources.displayMetrics.density).toInt()
-            if (pos == 4) {
-                Timber.d("updateItemWidths:itemCenterX=$itemCenterX, pos = $pos, distance = $distance, ratio = $ratio, widthPx = $widthPx")
-            }
-            if (widthPx >= baseWidthDp) {
-                positions.add(pos)
-                widths.add(widthPx)
-            }
-        }
-        if (!recyclerView.isComputingLayout) {
-            // 通知适配器更新宽度
-            adapter.updateItemWidths(positions, widths)
+
+            positions.add(pos)
+            widths.add(widthPx)
         }
 
+        // 通知适配器更新宽度
+//        adapter.updateItemWidths(positions, widths)
     }
 
     /*private fun setupRecyclerView() {

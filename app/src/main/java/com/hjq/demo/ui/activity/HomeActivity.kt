@@ -30,6 +30,7 @@ import com.hjq.demo.ui.fragment.MessageFragment
 import com.hjq.demo.ui.fragment.MineFragment
 import com.hjq.demo.ui.fragment.SingFragment
 import com.hjq.demo.ui.fragment.VideoFragment
+import com.hjq.demo.widget.OuterViewPager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -75,7 +76,8 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener {
         }
     }
 
-    private val viewPager: ViewPager? by lazy { findViewById(R.id.vp_home_pager) }
+//    private val viewPager: ViewPager? by lazy { findViewById(R.id.vp_home_pager) }
+    private val viewPager: OuterViewPager? by lazy { findViewById(R.id.vp_home_pager) }
     private val navigationView: RecyclerView? by lazy { findViewById(R.id.rv_home_navigation) }
     private var navigationAdapter: NavigationAdapter? = null
     private var pagerAdapter: FragmentPagerAdapter<AppFragment<*>>? = null
@@ -143,7 +145,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener {
 
         }
         var lastX: Float = 0f
-        drawerLayout.let {
+     /*   drawerLayout.let {
             it?.setOnTouchListener { v, event ->
                 val currentX = event.x;
                 if (currentX < lastX) {
@@ -162,7 +164,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener {
                 override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
                     // 抽屉滑动时的回调
                     // 1. 主界面缩放效果 - 随着抽屉打开，主界面逐渐缩小
-                    /*val scale = 1 - slideOffset * 0.2f  // 最大缩放到0.8倍
+                    *//*val scale = 1 - slideOffset * 0.2f  // 最大缩放到0.8倍
                     if (main_view != null) {
                         main_view?.scaleX = scale
                         main_view?.scaleY = scale
@@ -173,7 +175,7 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener {
                         // 3. 主界面位移 - 向右移动一点，增强立体感
                         val translationX = drawerView.width * slideOffset * 0.3f
                         main_view?.translationX = translationX
-                    }*/
+                    }*//*
 
 
                 }
@@ -190,14 +192,14 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener {
                     // 抽屉状态改变时的回调
                 }
             })
-        }
+        }*/
     }
 
     override fun initData() {
         viewPager.let {
             // 监听ViewPager触摸事件
             it?.setOnTouchListener { _, event ->
-                handleViewpagerTouchEvent(event)
+//                handleViewpagerTouchEvent(event)
                 false // 返回false，不拦截事件，保证ViewPager正常滑动
             }
             it?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {

@@ -6,14 +6,14 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.kongzue.dialogx.dialogs.PopTip
+import com.kongzue.dialogx.dialogs.WaitDialog
 import kotlinx.coroutines.NonDisposableHandle.parent
 import kotlin.math.abs
 
 // ClickAwareRecyclerView.kt 自定义 RecyclerView 识别点击目标
 class ClickAwareRecyclerView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : RecyclerView(context, attrs, defStyleAttr) {
 
     private var startX = 0f
@@ -21,6 +21,11 @@ class ClickAwareRecyclerView @JvmOverloads constructor(
     private var isClickOnScrollable = false
 
     override fun onInterceptTouchEvent(e: MotionEvent): Boolean {
+        if (isComputingLayout) {
+            WaitDialog.show("")
+            return false
+        }
+        WaitDialog.dismiss();
         when (e.action) {
             MotionEvent.ACTION_DOWN -> {
                 startX = e.x
@@ -35,6 +40,7 @@ class ClickAwareRecyclerView @JvmOverloads constructor(
                     parent.requestDisallowInterceptTouchEvent(false)
                 }
             }
+
             MotionEvent.ACTION_MOVE -> {
                 val deltaX = abs(e.x - startX)
                 val deltaY = abs(e.y - startY)
@@ -46,6 +52,7 @@ class ClickAwareRecyclerView @JvmOverloads constructor(
                     parent.requestDisallowInterceptTouchEvent(false)
                 }
             }
+
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 parent.requestDisallowInterceptTouchEvent(false)
             }
