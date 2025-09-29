@@ -4,13 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.HomeFragment">
+    tools:context="com.hjq.demo.ui.fragment.HomeFragment">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        app:tabTextColor="@color/red"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:visibility="gone"
         app:elevation="0px">
 
         <com.hjq.demo.widget.XCollapsingToolbarLayout
@@ -32,7 +39,7 @@
                 android:id="@+id/tb_home_title"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
-                app:layout_collapseMode="pin" >
+                app:layout_collapseMode="pin">
 
                 <LinearLayout
                     android:layout_width="match_parent"

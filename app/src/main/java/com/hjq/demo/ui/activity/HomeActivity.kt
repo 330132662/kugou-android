@@ -226,7 +226,6 @@ class HomeActivity : AppActivity(), NavigationAdapter.OnNavigationListener {
             addFragment(MessageFragment.newInstance())
             addFragment(MineFragment.newInstance())
             viewPager?.adapter = this
-
         }
         onNewIntent(intent)
     }
